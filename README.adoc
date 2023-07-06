@@ -3,3 +3,28 @@
 * https://www.rust-lang.org
 * https://github.com/rust-lang
 * https://en.wikipedia.org/wiki/Rust_(programming_language)
+
+
+== Additional resources
+
+* https://www.rust-lang.org/learn
+
+Tutorials
+
+* https://www.freecodecamp.org/news/tag/rust/
+* Command line applications
+** https://rust-cli.github.io/book/
+* https://github.com/learning-rust
+
+Books
+
+* The Rust Programming Language - Steve Klabnik, Carol Nichols
+** https://doc.rust-lang.org/book/
+* Rust Web Development - Bastian Gruber
+** https://rustwebdevelopment.com
+
+Podcasts
+
+* SE Radio #279, Rust 2017
+* SE Radio #490, Rust 2021
+* SE Radio #562, Rust Web Development
