@@ -100,7 +100,7 @@ fn floating_point_types() {
 #[allow(unused)]
 fn get_type_of<T>(_: &T) -> &'static str {
     let type_name = std::any::type_name::<T>();
-    return type_name;
+    type_name
 }
 
 fn main() {
