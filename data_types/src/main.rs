@@ -78,8 +78,19 @@ fn integer_overflow() {
 
 #[test]
 fn floating_point_types() {
-    // https://doc.rust-lang.org/book/ch03-02-data-types.html#floating-point-types
-    assert!(false, "TODO");
+    // A floating-point number is a number with a decimal point.
+    // There are two float sizes and the size dictates the precision in which numbers can be
+    // represented.
+    let _single_precision_float: f32 = 3.0;
+    let _double_precision_float: f64 = 4.3;
+
+    // All floating-point types are signed.
+    let _always_signed_float: f32 = -3.0;
+
+    // f64 is the default inferred type because on modern CPUs, it's roughly the same speed as f32
+    // but is capable of more precision.
+    let default_float = 2.0;
+    assert_eq!(get_type_of(&default_float), "f64");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
