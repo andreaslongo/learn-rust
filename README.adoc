@@ -1,0 +1,5 @@
+= Learning: Rust
+
+* https://www.rust-lang.org
+* https://github.com/rust-lang
+* https://en.wikipedia.org/wiki/Rust_(programming_language)
