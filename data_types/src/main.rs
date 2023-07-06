@@ -93,6 +93,12 @@ fn floating_point_types() {
     assert_eq!(get_type_of(&default_float), "f64");
 }
 
+#[test]
+fn numeric_operations() {
+    // https://doc.rust-lang.org/book/ch03-02-data-types.html#numeric-operations
+    assert!(false, "TODO");
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
 ///////////////////////////////////////////////////////////////////////////////
