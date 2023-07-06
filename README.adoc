@@ -8,7 +8,8 @@
 
 The main tool here is `cargo`.
 
-Make sure that your project is in a good state before you begin:
+Make sure that your project is in a good state before you begin.
+
 [source, bash]
 .These are the first steps:
 ----
