@@ -35,8 +35,8 @@ You will iterate those commands every few minutes.
 [source, bash]
 .This is the quality cycle:
 ----
-cargo fmt     # Auto-format your code for a consistent style
 cargo clippy  # Check for common mistakes and other improvements
+cargo fmt     # Auto-format your code for a consistent style
 ----
 
 Finally, run the tests again and then run your program to do some manual testing.
