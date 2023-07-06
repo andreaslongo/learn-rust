@@ -4,6 +4,74 @@
 * https://github.com/rust-lang
 * https://en.wikipedia.org/wiki/Rust_(programming_language)
 
+== Development workflow
+
+The main tool here is `cargo`.
+
+Make sure that your project is in a good state before you begin:
+[source, bash]
+.These are the first steps:
+----
+git status
+cargo check
+cargo test
+----
+
+Generally you write/change some code and then check if everything works as expected.
+You likely run those commands every few seconds.
+
+[source, bash]
+.This is the code cycle:
+----
+cargo check  # Ask the compiler if you introduced any error
+cargo fix    # Fix compile-time issues (automatically if possible)
+cargo test   # Run your tests
+----
+
+Then you want to make sure that your code meets some quality standards.
+You will iterate those commands every few minutes.
+
+[source, bash]
+.This is the quality cycle:
+----
+cargo fmt     # Auto-format your code for a consistent style
+cargo clippy  # Check for common mistakes and other improvements
+----
+
+Finally, run the tests again and then run your program to do some manual testing.
+
+[source, bash]
+.These are the final steps:
+----
+cargo test
+cargo run
+git commit --all
+----
+
+Remove generated artifacts (the `target/` directory) when you are done.
+
+[source, bash]
+.This is optional:
+----
+cargo clean
+----
+
+////
+[NOTE]
+====
+Cargo guides you if some tools are missing from your toolchain:
+----
+error: 'rustfmt' is not installed for the toolchain '1.70.0-x86_64-unknown-linux-gnu'
+To install, run `rustup component add rustfmt`
+----
+
+.Listing existing tools and installing additional tools:
+----
+rustup component list
+rustup component add rustfmt clippy
+----
+====
+////
 
 == Additional resources
 
