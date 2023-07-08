@@ -123,6 +123,18 @@ fn numeric_operations() {
     assert_eq!(remainder, 3);
 }
 
+#[test]
+fn the_boolean_type() {
+    // A boolean type has two possible values: `true` and `false`.
+    // They are one byte in size in memory.
+    // Boolean values are mainly used through conditionals, e.g. `if` expressions.
+    let t = true;
+    assert_eq!(t, true);
+
+    let f: bool = false; // with explicit type annotation
+    assert_eq!(f, false);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
 ///////////////////////////////////////////////////////////////////////////////
