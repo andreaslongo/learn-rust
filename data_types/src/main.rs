@@ -145,8 +145,8 @@ fn the_character_type() {
     let c = 'z';
     assert_eq!(c, 'z');
 
-    let z: char = 'Z'; // with explicit type annotation
-    assert_eq!(z, 'Z');
+    let z: char = 'ℤ'; // with explicit type annotation
+    assert_eq!(z, 'ℤ');
 
     let heart_eyed_cat = '😻';
     assert_eq!(heart_eyed_cat, '😻');
