@@ -135,6 +135,23 @@ fn the_boolean_type() {
     assert_eq!(f, false);
 }
 
+#[test]
+fn the_character_type() {
+    // A primitive alphabetic type.
+    // It is four bytes in size and represents a Unicode Scalar Value.
+    // It can therefore represent much more than ASCII.
+    // `char` literals use single quotes.
+    // `string` literals use double quotes.
+    let c = 'z';
+    assert_eq!(c, 'z');
+
+    let z: char = 'Z'; // with explicit type annotation
+    assert_eq!(z, 'Z');
+
+    let heart_eyed_cat = '😻';
+    assert_eq!(heart_eyed_cat, '😻');
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
 ///////////////////////////////////////////////////////////////////////////////
