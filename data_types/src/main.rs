@@ -160,7 +160,6 @@ fn the_tuple_type() {
     // A group of values with various types.
     // The values in the tuple don’t have to be the same type.
     // Tuples have a fixed length, they cannot grow or shrink once declared.
-
     let tuple = (500, 6.4, 1);
 
     // A tuple with optional type annotations.
@@ -185,6 +184,58 @@ fn the_tuple_type() {
     // Expressions implicitly return the unit value if they don’t return any other value.
     let unit: () = ();
     assert_eq!(get_type_of(&unit), "()");
+}
+
+#[test]
+#[should_panic]
+#[allow(unconditional_panic)]
+fn the_array_type() {
+    // A group of values with the same type.
+    // Every value in the array must have the same type.
+    // Arrays have a fixed length, they cannot grow or shrink once declared.
+    // An array is a single chunk of memory of a known, fixed size that can be allocated on the
+    // stack.
+    let array = [1, 2, 3, 4, 5];
+
+    // A vector is a similar collection type provided by the standard library
+    // It can grow or shrink in size and is therefore more flexible than an array.
+    // Better use a vector if unsure whether to use an array or a vector.
+
+    // Arrays are useful when we want our data allocated on the stack rather than the heap or when
+    // we want to ensure we always have a fixed number of elements or when we know the number of
+    // elements will not need to change.
+    let _months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+
+    // An array with optional type annotations.
+    // The annotation contains the type of each element followed by the number of elements in the
+    // array.
+    let _annotated_array: [i32; 5] = [1, 2, 3, 4, 5];
+
+    // We can initialize an array with the same value for each element.
+    let initialized_array = [3; 5];
+    assert_eq!(initialized_array, [3, 3, 3, 3, 3]);
+
+    // We can access elements of an array using indexing
+    assert_eq!(array[0], 1);
+    assert_eq!(array[1], 2);
+    assert_eq!(array[4], 5);
+
+    // If we try to access an element past the end of an array, the program will panic at runtime
+    // to prevent invalid memory access.
+    assert_eq!(array[5], 999);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
