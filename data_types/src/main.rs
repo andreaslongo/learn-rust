@@ -157,8 +157,34 @@ fn the_character_type() {
 
 #[test]
 fn the_tuple_type() {
-    // https://doc.rust-lang.org/book/ch03-02-data-types.html#the-tuple-type
-    assert!(false, "TODO");
+    // A group of values with various types.
+    // The values in the tuple don’t have to be the same type.
+    // Tuples have a fixed length, they cannot grow or shrink once declared.
+
+    let tuple = (500, 6.4, 1);
+
+    // A tuple with optional type annotations.
+    let _annotated_tuple: (i32, f64, u8) = (500, 6.4, 1);
+
+    // We can use destructuring to get the individual values.
+    // This uses pattern matching to break a single tuple into separate parts.
+    let (x, y, z) = tuple;
+    assert_eq!(x, 500);
+    assert_eq!(y, 6.4);
+    assert_eq!(z, 1);
+
+    // We can access a tuple element directly by using its index.
+    // The first index is 0.
+    assert_eq!(tuple.0, 500);
+    assert_eq!(tuple.1, 6.4);
+    assert_eq!(tuple.2, 1);
+
+    // The tuple without any values has a special name: unit.
+    // This value and its corresponding type are both written `()`.
+    // It represents an empty value or an empty return type.
+    // Expressions implicitly return the unit value if they don’t return any other value.
+    let unit: () = ();
+    assert_eq!(get_type_of(&unit), "()");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
