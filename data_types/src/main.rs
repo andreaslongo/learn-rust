@@ -51,10 +51,10 @@ fn integer_literals() {
     let binary = 0b1010;
     assert_eq!(binary, 10);
 
-    let byte = b'A'; // u8 only (octet) as 1 byte == 8 bits (usually)
+    let byte = b'A'; // `u8` only (octet) as 1 byte == 8 bits (usually)
     assert_eq!(byte, 65);
 
-    // Literals can also use _ as a visual separator to make them easier to read.
+    // Literals can also use `_` as a visual separator to make them easier to read.
     assert_eq!(98_222, 98222);
     assert_eq!(0b1111_0000, 0b11110000);
 }
@@ -73,7 +73,7 @@ fn integer_overflow() {
     // If compiled in release mode, the value will be wrapped around (two's complement wrapping).
 
     // We can explicitly handle overflows with methods from the standard library for primitive
-    // numeric types: wrapping_*, checked_*, overflowing_* and saturating_*.
+    // numeric types: `wrapping_*`, `checked_*`, `overflowing_*` and `saturating_*`.
 }
 
 #[test]
@@ -87,8 +87,8 @@ fn floating_point_types() {
     // All floating-point types are signed.
     let _always_signed_float: f32 = -3.0;
 
-    // f64 is the default inferred type because on modern CPUs, it's roughly the same speed as f32
-    // but is capable of more precision.
+    // `f64` is the default inferred type because on modern CPUs, it's roughly the same speed as
+    // `f32` but is capable of more precision.
     let default_float = 2.0;
     assert_eq!(get_type_of(&default_float), "f64");
 }
