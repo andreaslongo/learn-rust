@@ -152,6 +152,15 @@ fn the_character_type() {
     assert_eq!(heart_eyed_cat, '😻');
 }
 
+// Compound types
+// They can group multiple values into one type.
+
+#[test]
+fn the_tuple_type() {
+    // https://doc.rust-lang.org/book/ch03-02-data-types.html#the-tuple-type
+    assert!(false, "TODO");
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
 ///////////////////////////////////////////////////////////////////////////////
