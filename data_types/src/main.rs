@@ -95,8 +95,32 @@ fn floating_point_types() {
 
 #[test]
 fn numeric_operations() {
-    // https://doc.rust-lang.org/book/ch03-02-data-types.html#numeric-operations
-    assert!(false, "TODO");
+    // Each expression in these statements uses a mathematical operator and evaluates to a single
+    // value.
+
+    // addition
+    let sum = 5 + 10;
+    assert_eq!(sum, 15);
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+    assert_eq!(difference, 91.2);
+
+    // multiplication
+    let product = 4 * 30;
+    assert_eq!(product, 120);
+
+    // division
+    let quotient = 56.7 / 32.2;
+    assert_eq!(quotient, 1.7608695652173911);
+
+    // Integer division truncates toward zero to the nearest integer.
+    let truncated = -5 / 3;
+    assert_eq!(truncated, -1);
+
+    // remainder
+    let remainder = 43 % 5;
+    assert_eq!(remainder, 3);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
