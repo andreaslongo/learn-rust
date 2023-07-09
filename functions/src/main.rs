@@ -35,19 +35,51 @@ fn parameters() {
 }
 
 #[test]
+#[allow(unused_must_use)]
 fn statements_and_expressions() {
-    // https://doc.rust-lang.org/book/ch03-03-how-functions-work.html#statements-and-expressions
-    assert!(false, "TODO");
-    // Rust is an expression-based language,
+    // Rust is an expression-based language.
     // Function bodies are made up of a series of statements optionally ending in an expression.
+
     // Statements are instructions that perform some action and do not return a value.
-    // Creating a variable and assigning a value to it with the let keyword is a statement.
-    // Function definitions are also statements
+    // Creating a variable and assigning a value to it with the `let` keyword is a statement.
+    // Function definitions are also statements.
     fn function() {
-        let y = 6;
+        let _x = 6;
     }
-    // Expressions evaluate to a resultant value. Let’s look at some examples.
-    //
+
+    // Constructs like the following do not work in Rust, because assignment is a statement and
+    // statements don't return values - so here x has nothing to bind to.
+    // let x = (let y = 6);
+    // This works in other languages e.g. C and Python:
+    // x = y = 6
+
+    // Expressions evaluate to a resultant value.
+    // This expression evaluates to the value 11:
+    5 + 6;
+    assert_eq!(5 + 6, 11);
+
+    // Expressions can be part of statements.
+    let x = 5 + 6;
+    let y = 6; // The 6 in this statement is an expression that evaluates to the value 6.
+    assert_eq!(x, 11);
+    assert_eq!(y, 6);
+
+    // Calling a function is an expression.
+    function();
+
+    // Calling a macro is an expression.
+    println!();
+
+    // A new scope block created with curly brackets is an expression.
+    let z = {
+        let x = 3;
+        x + 1 // Note the missing semicolon here.
+    };
+    assert_eq!(z, 4);
+
+    // Expressions do not include ending semicolons.
+    // If you add a semicolon to the end of an expression, you turn it into a statement.
+    // It will then not return a value.
 }
 
 ///////////////////////////////////////////////////////////////////////////////
