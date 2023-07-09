@@ -34,6 +34,12 @@ fn parameters() {
     assert_eq!(result, "The measurement is: 5h");
 }
 
+#[test]
+fn statements_and_expressions() {
+    // https://doc.rust-lang.org/book/ch03-03-how-functions-work.html#statements-and-expressions
+    assert!(false, "TODO");
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
 ///////////////////////////////////////////////////////////////////////////////
