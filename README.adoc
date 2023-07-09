@@ -97,3 +97,11 @@ Podcasts
 * SE Radio #279, Rust 2017
 * SE Radio #490, Rust 2021
 * SE Radio #562, Rust Web Development
+
+Resource lists
+
+* https://gist.github.com/rylev/f76b8e9567a722f1b157a69a4f98f1c1
+
+Online training
+
+* https://learn.microsoft.com/en-us/training/paths/rust-first-steps/
