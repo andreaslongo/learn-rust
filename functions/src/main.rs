@@ -38,6 +38,16 @@ fn parameters() {
 fn statements_and_expressions() {
     // https://doc.rust-lang.org/book/ch03-03-how-functions-work.html#statements-and-expressions
     assert!(false, "TODO");
+    // Rust is an expression-based language,
+    // Function bodies are made up of a series of statements optionally ending in an expression.
+    // Statements are instructions that perform some action and do not return a value.
+    // Creating a variable and assigning a value to it with the let keyword is a statement.
+    // Function definitions are also statements
+    fn function() {
+        let y = 6;
+    }
+    // Expressions evaluate to a resultant value. Let’s look at some examples.
+    //
 }
 
 ///////////////////////////////////////////////////////////////////////////////
