@@ -102,6 +102,6 @@ Resource lists
 
 * https://gist.github.com/rylev/f76b8e9567a722f1b157a69a4f98f1c1
 
-Online training
+Online trainings
 
 * https://learn.microsoft.com/en-us/training/paths/rust-first-steps/
