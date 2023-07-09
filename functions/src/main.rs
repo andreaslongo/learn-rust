@@ -82,6 +82,49 @@ fn statements_and_expressions() {
     // It will then not return a value.
 }
 
+#[test]
+fn functions_with_return_values() {
+    // Functions can return values to the code that calls them.
+    // We must declare the type of a return value after an arrow.
+    fn five() -> i32 {
+        5
+    }
+    let returned_value = five();
+    assert_eq!(returned_value, 5);
+
+    // Functions return the value of the last expression in their body implicitly.
+    fn ten() -> i32 {
+        5 + 5
+    }
+    let y = ten();
+    assert_eq!(y, 10);
+
+    // We can return early from a function with the return keyword.
+    #[allow(unreachable_code)]
+    fn early_return_ten() -> i32 {
+        let ten = 10;
+        return ten; // any code following this is unreachable
+        13
+    }
+    let z = early_return_ten();
+    assert_eq!(z, 10);
+
+    // This function will return the value of x + 1
+    fn plus_one(x: i32) -> i32 {
+        x + 1
+    }
+    let a = plus_one(5);
+    assert_eq!(a, 6);
+
+    // But if we change the expression to a statement, we get a compile-time error.
+    // The definition of the function says it will return an `i32`, but statements don't evaluate
+    // to a value, which is expressed by `()`, the unit type.
+    // So nothing is returned which contradicts the function definition and results in an error.
+    // fn plus_one(x: i32) -> i32 {
+    //     x + 1;  // Note the added semicolon here
+    // }
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
 ///////////////////////////////////////////////////////////////////////////////
