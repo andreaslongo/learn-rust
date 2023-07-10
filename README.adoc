@@ -105,3 +105,4 @@ Resource lists
 Online trainings
 
 * https://learn.microsoft.com/en-us/training/paths/rust-first-steps/
+* https://www.programiz.com/rust
