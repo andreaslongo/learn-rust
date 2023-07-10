@@ -1,3 +1,7 @@
+fn main() {
+    println!("Usage: Look at the code in `src/main.rs` and run `cargo test`.");
+}
+
 #[test]
 fn functions() {
     // Declaring a new function
@@ -123,12 +127,4 @@ fn functions_with_return_values() {
     // fn plus_one(x: i32) -> i32 {
     //     x + 1;  // Note the added semicolon here
     // }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// Helper functions
-///////////////////////////////////////////////////////////////////////////////
-
-fn main() {
-    println!("Usage: Look at the code in `src/main.rs` and run `cargo test`.");
 }

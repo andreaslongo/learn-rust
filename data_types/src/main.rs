@@ -1,3 +1,7 @@
+fn main() {
+    println!("Usage: Look at the code in `src/main.rs` and run `cargo test`.");
+}
+
 // Rust is statically typed.
 // It therefore must know the types of all variables at compile time.
 
@@ -246,8 +250,4 @@ fn the_array_type() {
 fn get_type_of<T>(_: &T) -> &'static str {
     let type_name = std::any::type_name::<T>();
     type_name
-}
-
-fn main() {
-    println!("Usage: Look at the code in `src/main.rs` and run `cargo test`.");
 }
