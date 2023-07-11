@@ -27,3 +27,9 @@ fn if_expressions() {
     }
     assert_eq!(result, "number was something other than zero");
 }
+
+#[test]
+fn handling_multiple_conditions_with_else_if() {
+    // https://doc.rust-lang.org/book/ch03-05-control-flow.html#handling-multiple-conditions-with-else-if
+    assert!(false, "TODO");
+}
