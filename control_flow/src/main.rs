@@ -30,6 +30,30 @@ fn if_expressions() {
 
 #[test]
 fn handling_multiple_conditions_with_else_if() {
-    // https://doc.rust-lang.org/book/ch03-05-control-flow.html#handling-multiple-conditions-with-else-if
+    let number = 6;
+    let result;
+
+    // Rust executes the block for the first `true` condition.
+    // Once it finds one, it doesn't even check the remaining conditions.
+    if number % 4 == 0 {
+        result = "number is divisible by 4";
+    } else if number % 3 == 0 {
+        result = "number is divisible by 3";
+    } else if number % 2 == 0 {
+        result = "number is divisible by 2";
+    } else {
+        result = "number is not divisible by 4,4, or 2";
+    }
+
+    assert_eq!(result, "number is divisible by 3");
+
+    // Using too many `else if` expressions can clutter your code.
+    // If you have more than one, you might want to refactor your code.
+    // E.g. use a `match` construct instead.
+}
+
+#[test]
+fn using_if_in_a_let_statement() {
+    // https://doc.rust-lang.org/book/ch03-05-control-flow.html#using-if-in-a-let-statement
     assert!(false, "TODO");
 }
