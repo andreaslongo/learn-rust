@@ -73,21 +73,21 @@ fn using_if_in_a_let_statement() {
 #[test]
 fn repeating_code_with_the_loop_keyword() {
     // The `loop` keyword lets you execute a block of code forever until you tell it to stop.
-    let mut iteration_count = 0;
+    let mut counter = 0;
 
     loop {
-        // Every time this block is repeated, we count +1.
-        iteration_count = iteration_count + 1;
+        // On every iteration of the loop, we add 1 to the `counter` variable.
+        counter += 1;
 
         // If we are at 10 iterations, we want the program to stop executing the loop.
         // This is our stopping condition.
         // If we do not break, the loop block runs forever until we somehow stop the program.
-        if iteration_count == 10 {
+        if counter == 10 {
             break;
         }
     }
 
-    assert_eq!(iteration_count, 10);
+    assert_eq!(counter, 10);
 
     // We can also tell the program to skip over code in a loop that we don't want to execute with
     // the `continue` keyword.
