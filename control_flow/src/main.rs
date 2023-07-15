@@ -110,3 +110,29 @@ fn returning_values_from_loops() {
 
     assert_eq!(result, 20);
 }
+
+#[test]
+fn loop_labels_to_disambiguate_between_multiple_loops() {
+    // If we have nested loops, `break` and `continue` apply to the innermost loop at that point.
+    // We can label our loops and then use that label with `break` or `continue` to apply them on a
+    // different loop.
+    let mut count = 0;
+
+    'counting_up: loop {
+        let mut remaining = 10;
+
+        loop {
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+
+    assert_eq!(count, 2);
+}
