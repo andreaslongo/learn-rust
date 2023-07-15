@@ -93,6 +93,9 @@ fn repeating_code_with_the_loop_keyword() {
     // the `continue` keyword.
     // When the program reaches a `continue`, it will immediately stop the current iteration of the
     // loop and start with the next iteration.
+
+    // One use case of a loop is to retry an operation you know might fail, such as checking
+    // whether a thread has completed its job.
 }
 
 #[test]
@@ -135,4 +138,31 @@ fn loop_labels_to_disambiguate_between_multiple_loops() {
     }
 
     assert_eq!(count, 2);
+}
+
+#[test]
+fn conditional_loops_with_while() {
+    // We often want a loop to run as long as some condition is met.
+    let mut number = 3;
+
+    loop {
+        if number == 0 {
+            break;
+        } else {
+            number -= 1;
+        }
+    }
+
+    assert_eq!(number, 0);
+
+    // This pattern is so common, that Rust has a built-in language construct for it, called a
+    // `while` loop.
+    // We can rewrite the loop above as a `while` loop which eliminates a lot of nesting.
+    let mut number = 3;
+
+    while number != 0 {
+        number -= 1;
+    }
+
+    assert_eq!(number, 0);
 }
