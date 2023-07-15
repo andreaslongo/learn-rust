@@ -94,3 +94,19 @@ fn repeating_code_with_the_loop_keyword() {
     // When the program reaches a `continue`, it will immediately stop the current iteration of the
     // loop and start with the next iteration.
 }
+
+#[test]
+fn returning_values_from_loops() {
+    // You can add values you want to pass out of the loop after the `break` expression.
+    let mut counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    }; // Note the semicolon here to end the statement that assigns the value to result.
+
+    assert_eq!(result, 20);
+}
