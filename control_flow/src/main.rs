@@ -166,3 +166,60 @@ fn conditional_loops_with_while() {
 
     assert_eq!(number, 0);
 }
+
+#[test]
+fn looping_through_a_collection_with_for() {
+    // We can use a `while` loop to iterate over the elements of a collection, such as an array.
+    // We locate elements in the array by its index position.
+    let a = [10, 20, 30, 40, 50];
+    let mut index = 0;
+    let mut vec = Vec::new();
+
+    // The array has 5 elements
+    // The elements are at index position 0..4 from first to last element.
+    // We end the loop as soon as we reach index 5, because 5 would be out of range for the array.
+    while index < 5 {
+        // Get the value of the element at the given index from array `a`.
+        let value = a[index];
+        // Append the value to vector `vec`
+        vec.push(value);
+        // Go to the next element in the following iteration.
+        index += 1;
+    }
+    assert_eq!(vec, [10, 20, 30, 40, 50]);
+
+    // But the approach above is error prone.
+    // We could cause the program to panic if the index value or test condition is incorrect
+    // We could miss elements if we don't go far enough in the array.
+    // It is also inefficient, because we have to check the index condition on every iteration.
+
+    // Rust has a better way for executing code for each item in a collection. You can use a `for`
+    // loop for this and improve the code above.
+    let a = [10, 20, 30, 40, 50];
+    let mut vec = Vec::new();
+
+    for element in a {
+        vec.push(element);
+    }
+
+    assert_eq!(vec, [10, 20, 30, 40, 50]);
+
+    // `for` loops are the most commonly used loop constructs in Rust because they are generally
+    // safe and concise.
+    // You can use it in other situations, like e.g. instead of a `while` loop as in the countdown
+    // from our while loop example above.
+    let mut number = 3;
+    for _ in (1..4).rev() {
+        number -= 1;
+    }
+    assert_eq!(number, 0);
+
+    // This uses a `Range` provided by the standard library.
+    // It generates numbers in sequence starting from one number and ending before another number.
+    // `rev` reverses the range.
+    let mut vec = Vec::new();
+    for element in (1..4).rev() {
+        vec.push(element);
+    }
+    assert_eq!(vec, [3, 2, 1]);
+}
