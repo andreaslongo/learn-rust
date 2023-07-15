@@ -56,6 +56,13 @@ fn handling_multiple_conditions_with_else_if() {
 
 #[test]
 fn using_if_in_a_let_statement() {
-    // https://doc.rust-lang.org/book/ch03-05-control-flow.html#using-if-in-a-let-statement
-    assert!(false, "TODO");
+    // `if` is an expression.
+    // We can use it on the right side of a `let` statement to conditionally assign values.
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+    assert_eq!(number, 5);
+
+    // This works because blocks of code evaluate to the last expression in them, and numbers by
+    // themselves are also expressions.
+    // Note that the result values for each arm of the `if` must be the same type.
 }
