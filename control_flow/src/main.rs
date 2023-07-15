@@ -2,9 +2,11 @@ fn main() {
     println!("Usage: Look at the code in `src/main.rs` and run `cargo test`.");
 }
 
+// `if` Expressions
+// An `if` expression allows you to branch your code depending on conditions.
+
 #[test]
-fn if_expressions() {
-    // An `if` expression allows you to branch your code depending on conditions.
+fn conditions() {
     let mut number;
     let mut result;
 
