@@ -1,0 +1,17 @@
+= mkcert
+
+== Design
+
+Design goals in no particular order.
+
+* Portable
+** No external dependencies
+** A user should just be able to run a copy of the binary
+
+* Easy to use
+** Sane defaults
+** Limited use cases
+
+* Safe
+** Encrypted private keys
+** No copying or moving around of private keys

@@ -1,0 +1,5 @@
+# Ignore everything by default
+**
+
+# Allow the following explicitly
+# !rust-toolchain
