@@ -12,16 +12,27 @@ use openssl::x509::extension::SubjectKeyIdentifier;
 use openssl::x509::X509NameBuilder;
 use openssl::x509::X509;
 
-fn main() {
-    new_self_signed_certificate()
+use clap::Parser;
+
+/// Make self-signed X.509 certificates
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Cli {
+    /// Common name of the certificate
+    cn: String,
 }
 
-fn new_self_signed_certificate() {
-    // Creates a new self-signed certificate.
+fn main() {
+    let args = Cli::parse();
+    new_self_signed_certificate(&args.cn);
+}
+
+fn new_self_signed_certificate(common_name: &str) {
+    // Creates a new self-signed certificate which expires after 1 year.
     let key_pair = new_key_pair();
 
     let mut x509_name = X509NameBuilder::new().unwrap();
-    x509_name.append_entry_by_text("CN", "example.com").unwrap();
+    x509_name.append_entry_by_text("CN", common_name).unwrap();
     let x509_name = x509_name.build();
 
     let mut cert_builder = X509::builder().unwrap();
