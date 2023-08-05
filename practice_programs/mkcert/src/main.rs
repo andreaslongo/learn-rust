@@ -12,27 +12,42 @@ use openssl::x509::extension::SubjectKeyIdentifier;
 use openssl::x509::X509NameBuilder;
 use openssl::x509::X509;
 
-use clap::Parser;
-
-/// Make self-signed X.509 certificates
-#[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
-struct Cli {
-    /// Common name of the certificate
-    cn: String,
-}
+// use clap::Parser;
+// /// Make self-signed X.509 certificates
+// #[derive(Parser, Debug)]
+// #[command(author, version, about, long_about = None)]
+// struct Cli {
+//     /// Common name of the certificate
+//     #[arg(short, long)]
+//     self_signed: bool,
+// }
 
 fn main() {
-    let args = Cli::parse();
-    new_self_signed_certificate(&args.cn);
+    let key_pair = new_key_pair();
+    let cert = new_self_signed_certificate(&key_pair);
+
+    // Prints the certificate.
+    let c: Vec<u8> = cert.to_text().unwrap();
+    print!("{}", std::str::from_utf8(c.as_slice()).unwrap());
+
+    // Prints the public key.
+    let pub_key: Vec<u8> = key_pair.public_key_to_pem().unwrap();
+    print!("{}", std::str::from_utf8(pub_key.as_slice()).unwrap());
+
+    // Prints the pem version
+    let pem: Vec<u8> = cert.to_pem().unwrap();
+    print!("{}", std::str::from_utf8(pem.as_slice()).unwrap());
 }
 
-fn new_self_signed_certificate(common_name: &str) {
+fn new_self_signed_certificate(key_pair: &PKey<Private>) -> X509 {
     // Creates a new self-signed certificate which expires after 1 year.
-    let key_pair = new_key_pair();
 
     let mut x509_name = X509NameBuilder::new().unwrap();
-    x509_name.append_entry_by_text("CN", common_name).unwrap();
+    x509_name.append_entry_by_text("C", "XX").unwrap();
+    x509_name.append_entry_by_text("ST", "XX").unwrap();
+    x509_name.append_entry_by_text("L", "XX").unwrap();
+    x509_name.append_entry_by_text("O", "generated").unwrap();
+    x509_name.append_entry_by_text("CN", "generated").unwrap();
     let x509_name = x509_name.build();
 
     let mut cert_builder = X509::builder().unwrap();
@@ -47,7 +62,7 @@ fn new_self_signed_certificate(common_name: &str) {
     let not_after = Asn1Time::days_from_now(365).unwrap();
     cert_builder.set_not_after(&not_after).unwrap();
     cert_builder.set_subject_name(&x509_name).unwrap();
-    cert_builder.set_pubkey(&key_pair).unwrap();
+    cert_builder.set_pubkey(key_pair).unwrap();
 
     let subject_key_identifier = SubjectKeyIdentifier::new()
         .build(&cert_builder.x509v3_context(None, None))
@@ -69,17 +84,10 @@ fn new_self_signed_certificate(common_name: &str) {
         .unwrap();
 
     cert_builder
-        .sign(&key_pair, MessageDigest::sha256())
+        .sign(key_pair, MessageDigest::sha256())
         .unwrap();
-    let cert = cert_builder.build();
 
-    // Prints the public key.
-    let pub_key: Vec<u8> = key_pair.public_key_to_pem().unwrap();
-    print!("{}", std::str::from_utf8(pub_key.as_slice()).unwrap());
-
-    // Prints the certificate.
-    let c: Vec<u8> = cert.to_text().unwrap();
-    print!("{}", std::str::from_utf8(c.as_slice()).unwrap());
+    cert_builder.build()
 }
 
 fn new_key_pair() -> PKey<Private> {
