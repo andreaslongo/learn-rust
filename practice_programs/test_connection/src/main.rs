@@ -29,6 +29,7 @@ struct Args {
 enum Protocol {
     Http,
     Https,
+    Mssql,
     Smb,
 }
 
@@ -38,6 +39,7 @@ fn main() {
     let port: u16 = match args.protocol {
         Some(Protocol::Http) => 80,
         Some(Protocol::Https) => 443,
+        Some(Protocol::Mssql) => 1433,
         Some(Protocol::Smb) => 445,
         None => args.port.unwrap_or(443),
     };
