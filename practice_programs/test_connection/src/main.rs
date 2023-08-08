@@ -8,6 +8,7 @@ use clap::ValueEnum;
 /// A simple program to test TCP connectivity
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
+#[command(help_template = "{about-section}\n{usage-heading} {usage}\n\n{all-args}\n\nWritten by {author}")]
 struct Args {
     /// DNS name or IP address
     host: String,
