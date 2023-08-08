@@ -33,6 +33,7 @@ struct Args {
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
 enum Protocol {
+    Dns,
     Http,
     Https,
     Mssql,
@@ -44,6 +45,7 @@ fn main() -> Result<()> {
     let host = args.host;
     let timeout_in_seconds = Duration::new(args.timeout.into(), 0);
     let port: u16 = match args.protocol {
+        Some(Protocol::Dns) => 53,
         Some(Protocol::Http) => 80,
         Some(Protocol::Https) => 443,
         Some(Protocol::Mssql) => 1433,
