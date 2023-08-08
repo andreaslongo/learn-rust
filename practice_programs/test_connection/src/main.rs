@@ -4,6 +4,7 @@ use std::time::Duration;
 
 use clap::Parser;
 use clap::ValueEnum;
+use colored::*;
 
 /// A simple program to test TCP connectivity
 #[derive(Parser)]
@@ -35,7 +36,9 @@ enum Protocol {
 }
 
 fn main() {
+
     let args = Args::parse();
+    let host = args.host;
     let timeout_in_seconds = Duration::new(args.timeout.into(), 0);
     let port: u16 = match args.protocol {
         Some(Protocol::Http) => 80,
@@ -45,12 +48,18 @@ fn main() {
         None => args.port.unwrap_or(443),
     };
 
-    let connection = format!("{}:{}", args.host, port);
+    let connection = format!("{host}:{port}");
     let addrs_iter = connection.to_socket_addrs().unwrap();
     for addr in addrs_iter {
         match TcpStream::connect_timeout(&addr, timeout_in_seconds) {
-            Ok(_) => println!("OK :: {connection} :: {addr}"),
-            Err(_) => println!("BAD :: {connection} :: {addr}"),
+            Ok(_) => {
+                let msg = format!("OK :: {connection} :: {addr}");
+                println!("{}", msg.green())
+            }
+            Err(_) => {
+                let msg = format!("BAD :: {connection} :: {addr}");
+                println!("{}", msg.red())
+            }
         }
     }
 }
