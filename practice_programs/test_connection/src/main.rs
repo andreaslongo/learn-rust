@@ -2,6 +2,8 @@ use std::net::TcpStream;
 use std::net::ToSocketAddrs;
 use std::time::Duration;
 
+use anyhow::Context;
+use anyhow::Result;
 use clap::Parser;
 use clap::ValueEnum;
 use colored::*;
@@ -9,7 +11,9 @@ use colored::*;
 /// A simple program to test TCP connectivity
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
-#[command(help_template = "{about-section}\n{usage-heading} {usage}\n\n{all-args}\n\nWritten by {author}")]
+#[command(
+    help_template = "{about-section}\n{usage-heading} {usage}\n\n{all-args}\n\nWritten by {author}"
+)]
 struct Args {
     /// DNS name or IP address
     host: String,
@@ -35,8 +39,7 @@ enum Protocol {
     Smb,
 }
 
-fn main() {
-
+fn main() -> Result<()> {
     let args = Args::parse();
     let host = args.host;
     let timeout_in_seconds = Duration::new(args.timeout.into(), 0);
@@ -49,11 +52,16 @@ fn main() {
     };
 
     let connection = format!("{host}:{port}");
-    let addrs_iter = connection.to_socket_addrs().unwrap();
-    for addr in addrs_iter {
+
+    let addrs = connection
+        .to_socket_addrs()
+        .with_context(|| host.to_string())?;
+
+    for addr in addrs {
         match TcpStream::connect_timeout(&addr, timeout_in_seconds) {
-            Ok(_) => {
-                let msg = format!("OK :: {connection} :: {addr}");
+            Ok(stream) => {
+                let local = stream.local_addr().with_context(|| addr)?.ip();
+                let msg = format!("OK :: {local} :: {connection} :: {addr}");
                 println!("{}", msg.green())
             }
             Err(_) => {
@@ -62,4 +70,5 @@ fn main() {
             }
         }
     }
+    Ok(())
 }
