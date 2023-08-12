@@ -13,10 +13,17 @@ impl Config<'_> {
         if args.len() < 3 {
             return Err("not enough arguments");
         }
+        if args.len() > 4 {
+            return Err("too many arguments");
+        }
 
         let query = &args[1];
         let file_path = &args[2];
-        let ignore_case = env::var("IGNORE_CASE").is_ok();
+        let mut ignore_case = env::var("IGNORE_CASE").is_ok();
+
+        if args.len() == 4 {
+            ignore_case = &args[3] == "-i";
+        }
 
         Ok(Config {
             query,
