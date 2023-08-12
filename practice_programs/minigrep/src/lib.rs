@@ -45,6 +45,18 @@ mod tests {
     use super::*;
 
     #[test]
+    fn multiline_content_with_no_match() {
+        let query = "table";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        let expected: Vec<&str> = vec![];
+        assert_eq!(search(query, contents), expected);
+    }
+
+    #[test]
     fn multiline_content_with_single_match() {
         let query = "duct";
         let contents = "\
@@ -52,6 +64,46 @@ Rust:
 safe, fast, productive.
 Pick three.";
 
-        assert_eq!(search(query, contents), vec!["safe, fast, productive."]);
+        let expected = vec!["safe, fast, productive."];
+        assert_eq!(search(query, contents), expected);
+    }
+
+    #[test]
+    fn multiline_content_with_multiple_matches() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        let expected = vec!["safe, fast, productive.", "safe, fast, productive."];
+        assert_eq!(search(query, contents), expected);
+    }
+
+    #[test]
+    fn singleline_content_with_no_match() {
+        let query = "duct";
+        let contents = "Rust: Pick three.";
+        let expected: Vec<&str> = vec![];
+        assert_eq!(search(query, contents), expected);
+    }
+
+    #[test]
+    fn singleline_content_with_single_match() {
+        let query = "Pick";
+        let contents = "Rust: Pick three.";
+        let expected = vec!["Rust: Pick three."];
+        assert_eq!(search(query, contents), expected);
+    }
+
+    #[test]
+    fn singleline_content_with_multiple_matches() {
+        let query = "Pick";
+        let contents = "Rust: Pick three. Rust: Pick three.";
+        let expected = vec!["Rust: Pick three. Rust: Pick three."];
+        assert_eq!(search(query, contents), expected);
     }
 }
