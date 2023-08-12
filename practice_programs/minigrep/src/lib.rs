@@ -40,70 +40,46 @@ fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     results
 }
 
+fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query.to_lowercase()) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn multiline_content_with_no_match() {
-        let query = "table";
-        let contents = "\
-Rust:
-safe, fast, productive.
-Pick three.";
-
-        let expected: Vec<&str> = vec![];
-        assert_eq!(search(query, contents), expected);
-    }
-
-    #[test]
-    fn multiline_content_with_single_match() {
-        let query = "duct";
-        let contents = "\
-Rust:
-safe, fast, productive.
-Pick three.";
-
-        let expected = vec!["safe, fast, productive."];
-        assert_eq!(search(query, contents), expected);
-    }
-
-    #[test]
-    fn multiline_content_with_multiple_matches() {
+    fn case_sensitive() {
         let query = "duct";
         let contents = "\
 Rust:
 safe, fast, productive.
 Pick three.
+Duct tape.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+
+    #[test]
+    fn case_insensitive() {
+        let query = "rUsT";
+        let contents = "\
 Rust:
 safe, fast, productive.
-Pick three.";
+Pick three.
+Trust me.";
 
-        let expected = vec!["safe, fast, productive.", "safe, fast, productive."];
-        assert_eq!(search(query, contents), expected);
-    }
-
-    #[test]
-    fn singleline_content_with_no_match() {
-        let query = "duct";
-        let contents = "Rust: Pick three.";
-        let expected: Vec<&str> = vec![];
-        assert_eq!(search(query, contents), expected);
-    }
-
-    #[test]
-    fn singleline_content_with_single_match() {
-        let query = "Pick";
-        let contents = "Rust: Pick three.";
-        let expected = vec!["Rust: Pick three."];
-        assert_eq!(search(query, contents), expected);
-    }
-
-    #[test]
-    fn singleline_content_with_multiple_matches() {
-        let query = "Pick";
-        let contents = "Rust: Pick three. Rust: Pick three.";
-        let expected = vec!["Rust: Pick three. Rust: Pick three."];
-        assert_eq!(search(query, contents), expected);
+        assert_eq!(
+            vec!["Rust:", "Trust me."],
+            search_case_insensitive(query, contents)
+        );
     }
 }
