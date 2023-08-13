@@ -2,28 +2,31 @@ use std::env;
 use std::error::Error;
 use std::fs;
 
-pub struct Config<'a> {
-    pub query: &'a String,
-    pub file_path: &'a String,
+pub struct Config {
+    pub query: String,
+    pub file_path: String,
     pub ignore_case: bool,
 }
 
-impl Config<'_> {
-    pub fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
-        if args.len() > 4 {
-            return Err("too many arguments");
-        }
+impl Config {
+    pub fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
+        // First arg is the name of the program which we don't need.
+        args.next();
 
-        let query = &args[1];
-        let file_path = &args[2];
-        let mut ignore_case = env::var("IGNORE_CASE").is_ok();
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
 
-        if args.len() == 4 {
-            ignore_case = &args[3] == "-i";
-        }
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file path"),
+        };
+
+        let ignore_case = match args.next() {
+            Some(arg) => arg == "-i",
+            None => env::var("IGNORE_CASE").is_ok(),
+        };
 
         Ok(Config {
             query,
@@ -37,9 +40,9 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
     let results = if config.ignore_case {
-        search_case_insensitive(config.query, &contents)
+        search_case_insensitive(&config.query, &contents)
     } else {
-        search(config.query, &contents)
+        search(&config.query, &contents)
     };
 
     for line in results {
