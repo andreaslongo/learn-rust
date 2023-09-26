@@ -8,7 +8,7 @@ readonly local uid=1000
 readonly local gid=1000
 
 # Use --publish <host_port>:<container_port> to enable networking.
-podman container attach "$(basename ${parent_dir})" || podman container run \
+podman container attach "$(basename ${parent_dir})" 2>/dev/null || podman container run \
     --interactive \
     --name="$(basename ${parent_dir})" \
     --publish 8001:7878 \
