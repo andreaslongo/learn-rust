@@ -18,27 +18,30 @@ fn main() {
         None => panic!("Didn't get a remote user"),
     };
 
-    let local_user = env::var("USER").expect("failed to get local user");
-    let local_host = env::var("HOSTNAME").expect("failed to get local host");
+    let local_user = env::var("USER").unwrap_or(String::from("unknown-local-user"));
+    let local_host = env::var("HOSTNAME").unwrap_or(String::from("unknown-local-host"));
 
     let ssh_key_comment = format!("{local_user}@{local_host} for {remote_user}@{remote_host}");
     dbg!(&ssh_key_comment);
 
-    let mut ssh_key_path = PathBuf::from(env::var("HOME").expect("failed to get home path"));
-    ssh_key_path.push(".ssh");
-    fs::create_dir_all(&ssh_key_path).expect("failet to create SSH directory");
+    let mut ssh_key_path = PathBuf::from(env::var("HOME").unwrap_or(String::from(".")));
+    if ssh_key_path.to_str().expect("invalid path") != "." {
+        ssh_key_path.push(".ssh");
+        fs::create_dir_all(&ssh_key_path).expect("failet to create SSH directory");
+    }
+
     let filename = format!("{remote_host}_{remote_user}");
     ssh_key_path.push(filename);
     dbg!(&ssh_key_path);
 
+    let ssh_key_comment = ssh_key_comment.as_str();
+    let ssh_key_path = ssh_key_path.to_str().expect("invalid path");
     let status = Command::new("ssh-keygen")
         .args(["-t", "ed25519"])
-        .args(["-C", ssh_key_comment.as_str()])
-        .args(["-f", ssh_key_path.to_str().expect("invalid path")])
+        .args(["-C", ssh_key_comment])
+        .args(["-f", ssh_key_path])
         .status()
-        .expect("failed to execute process");
+        .expect("failed to execute 'ssh-keygen'");
 
-    println!("process finished with: {status}");
-
-    assert!(status.success());
+    dbg!(&status);
 }
