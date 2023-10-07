@@ -2,7 +2,11 @@
 name = "mksshkey"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Andreas Longo"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/andreaslongo/mksshkey"
 
 [dependencies]
+anstream = "0.6.4"
+clap = { version = "4.4.6", features = ["derive"] }
+owo-colors = "3.5.0"

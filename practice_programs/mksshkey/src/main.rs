@@ -1,15 +1,49 @@
 use std::env;
 use std::fs;
 use std::path::PathBuf;
+use std::process;
 use std::process::Command;
 
+use clap::Parser;
 
-
-
-
-
+use mksshkey::Args;
+use mksshkey::Config;
 
 fn main() {
+    let cli = Cli::parse();
+
+    let args = Args {
+        remote_host: cli.remote_host,
+        remote_user: cli.remote_user,
+    };
+
+    let config = Config::build(args).unwrap_or_else(|e| {
+        eprintln!("Configuration error: {e}\nTry 'mksshkey --help' for more information.");
+        process::exit(1);
+    });
+
+    if let Err(e) = mksshkey::run(config) {
+        eprintln!("Application error: {e}\nTry 'mksshkey --help' for more information.");
+        process::exit(1);
+    }
+}
+
+/// A simple wrapper around OpenSSH to create SSH keys
+#[derive(Parser)]
+#[command(author, version, about, long_about = None)]
+#[command(arg_required_else_help(true))]
+#[command(
+    help_template = "{about-section}\n{usage-heading} {usage}\n\n{all-args}\n\nWritten by {author}\nhttps://github.com/andreaslongo/mksshkey"
+)]
+pub struct Cli {
+    /// The remote host for which the new key should be authorized
+    remote_host: String,
+
+    /// The remote user for which the new key should be authorized
+    remote_user: String,
+}
+
+fn old_main() {
     let mut args = env::args();
     args.next();
     let remote_host = match args.next() {
@@ -41,7 +75,6 @@ fn main() {
     let mut ssh_pub_key_path = ssh_key_path.clone();
     ssh_pub_key_path.set_extension("pub");
 
-
     let ssh_key_comment = ssh_key_comment.as_str();
     let ssh_key_path = ssh_key_path.to_str().expect("invalid path");
 
@@ -53,15 +86,14 @@ fn main() {
         .status()
         .expect("failed to execute 'ssh-keygen'");
 
-
     println!();
     let _ = Command::new("ssh-add")
         .arg(ssh_key_path)
         .status()
         .expect("failed to execute 'ssh-add'");
 
-
-    let ssh_config = format!("Host *
+    let ssh_config = format!(
+        "Host *
     PreferredAuthentications publickey
     IdentitiesOnly yes
     StrictHostKeyChecking yes
@@ -71,11 +103,13 @@ fn main() {
 Host {remote_host}
     Hostname {remote_host}
     User {remote_user}
-    IdentityFile {ssh_key_path}");
+    IdentityFile {ssh_key_path}"
+    );
 
     let ssh_pub_key = fs::read_to_string(ssh_pub_key_path).unwrap();
     let ssh_pub_key = ssh_pub_key.trim();
-    let usage = format!("
+    let usage = format!(
+        "
 == Using the key
 
 Add the public key to the 'authorized_keys' file on the remote host:
@@ -95,8 +129,8 @@ Test the connection:
 ----
 ssh {remote_host}
 ----
-");
+"
+    );
 
     println!("{usage}")
-
 }
