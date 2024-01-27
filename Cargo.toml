@@ -1,0 +1,9 @@
+[package]
+name = "rust-launchpad"
+version = "0.1.0"
+edition = "2021"
+authors = ["Andreas Longo <git@andreaslongo.com>"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/andreaslongo/rust-launchpad"
+homepage = "https://github.com/andreaslongo/rust-launchpad"
+description = ""

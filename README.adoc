@@ -1,0 +1,31 @@
+= Rust: Launchpad
+
+Rust tutorials from https://www.shuttle.rs/launchpad.
+
+== Contributing
+
+The best way to get started is to build and run a local dev container.
+
+You can use https://podman.io[Podman] or any other OCI compliant container manager.
+The dev container has all the required dependencies for working with the project.
+
+[source, bash]
+----
+container/build.sh
+container/run.sh
+----
+
+From inside the container, you can then run some workflows.
+
+[source, bash]
+----
+cargo test    # run tests
+cargo clippy  # run linters
+cargo run
+----
+
+== License
+
+Copyright (C) 2023 Andreas Longo
+
+GNU General Public License v3.0 or later

@@ -1,0 +1,33 @@
+# https://github.com/rust-lang/docker-rust
+FROM docker.io/library/rust:slim-bookworm
+
+# Update OS packages and install OS level dependencies if required
+RUN set -o errexit \
+    set -o nounset \
+    set -o pipefail \
+    set -o xtrace \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update \
+    && apt-get upgrade --assume-yes --no-install-recommends \
+    && apt-get clean \
+    && apt-get purge --assume-yes --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && apt-get check \
+    && rm -rf /var/lib/apt/lists/*
+
+# Switch to non-root user
+RUN set -o errexit \
+    set -o nounset \
+    set -o pipefail \
+    set -o xtrace \
+    && useradd --create-home appuser
+USER appuser
+WORKDIR /home/appuser
+
+# Install Rust tools
+RUN set -o errexit \
+    set -o nounset \
+    set -o pipefail \
+    set -o xtrace \
+    && rustup component add \
+        clippy \
+        rustfmt
