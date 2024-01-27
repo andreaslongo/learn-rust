@@ -12,6 +12,7 @@ readonly local gid=1000
 podman container start --attach --interactive "$(basename ${parent_dir})" 2>/dev/null || podman container run \
     --interactive \
     --name="$(basename ${parent_dir})" \
+    --publish 3000:3000 \
     --pull=newer \
     --tty \
     --user ${uid}:${gid} \
