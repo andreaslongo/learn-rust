@@ -8,6 +8,7 @@ use std::sync::Arc;
 use xml::reader::XmlEvent;
 use xml::EventReader;
 
+#[derive(Default)]
 struct Podcast {
     title: String,
     description: String,
@@ -15,14 +16,6 @@ struct Podcast {
 }
 
 impl Podcast {
-    fn new() -> Self {
-        Self {
-            title: String::new(),
-            description: String::new(),
-            audio_file: None,
-        }
-    }
-
     fn to_html(&self) -> String {
         format!(
             r#"
@@ -57,7 +50,7 @@ enum ParseState {
 async fn read_podcasts_from_xml(url: &str) -> Result<Vec<Podcast>> {
     let data = reqwest::get(url).await?.text().await?;
     let parser = EventReader::new(BufReader::new(data.as_bytes()));
-    let mut podcast = Podcast::new();
+    let mut podcast = Podcast::default();
     let mut state = ParseState::Start;
     let mut results = Vec::new();
 
@@ -93,7 +86,7 @@ async fn read_podcasts_from_xml(url: &str) -> Result<Vec<Podcast>> {
             Ok(XmlEvent::EndElement { name }) => {
                 if name.local_name == "item" {
                     results.push(podcast);
-                    podcast = Podcast::new();
+                    podcast = Podcast::default();
                     state = ParseState::Start;
                 }
             }
