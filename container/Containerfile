@@ -9,6 +9,11 @@ RUN set -o errexit \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get upgrade --assume-yes --no-install-recommends \
+    && apt-get install --assume-yes --no-install-recommends \
+        libssl-dev \
+        make \
+        perl \
+        pkg-config \
     && apt-get clean \
     && apt-get purge --assume-yes --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && apt-get check \

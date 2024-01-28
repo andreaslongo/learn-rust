@@ -2,6 +2,8 @@
 
 Rust tutorials from https://www.shuttle.rs/launchpad.
 
+* Issue #2: Structs and Enums - A podcast app
+
 == Contributing
 
 The best way to get started is to build and run a local dev container.
