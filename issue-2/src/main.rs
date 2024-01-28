@@ -2,6 +2,7 @@ use anyhow::Result;
 use axum::extract::Path;
 use axum::extract::State;
 use axum::response::Html;
+use axum::response::Response;
 use axum::{response::IntoResponse, routing::get, Router};
 use std::io::BufReader;
 use std::sync::Arc;
@@ -15,9 +16,9 @@ struct Podcast {
     audio_file: Option<String>,
 }
 
-impl Podcast {
-    fn to_html(&self) -> String {
-        format!(
+impl IntoResponse for &Podcast {
+    fn into_response(self) -> Response {
+        let html = format!(
             r#"
             <html>
                 <head>
@@ -37,7 +38,8 @@ impl Podcast {
                 Some(ref file) => file,
                 None => "No audio available",
             }
-        )
+        );
+        Html(html).into_response()
     }
 }
 
@@ -99,10 +101,10 @@ async fn read_podcasts_from_xml(url: &str) -> Result<Vec<Podcast>> {
 
 async fn podcast(State(app_state): State<AppState>, Path(id): Path<usize>) -> impl IntoResponse {
     let podcast = app_state.get(id);
-    Html(match podcast {
-        Some(podcast) => podcast.to_html(),
-        None => "No podcast found".to_string(),
-    })
+    match podcast {
+        Some(podcast) => podcast.into_response(),
+        None => "No podcast founc".into_response(),
+    }
 }
 
 async fn root(State(app_state): State<AppState>) -> impl IntoResponse {
