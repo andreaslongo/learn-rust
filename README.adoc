@@ -4,6 +4,7 @@ Rust tutorials from https://www.shuttle.rs/launchpad.
 
 * Issue #2: Structs and Enums - A podcast app
 * Issue #3: Ownership and Error Handling - A Sudoku solver
+* Issue #4: Ownership and Lifetimes - A lottery number generator
 
 == Contributing
 
