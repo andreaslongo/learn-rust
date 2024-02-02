@@ -5,6 +5,12 @@ Rust tutorials from https://www.shuttle.rs/launchpad.
 * Issue #2: Structs and Enums - A podcast app
 * Issue #3: Ownership and Error Handling - A Sudoku solver
 * Issue #4: Ownership and Lifetimes - A lottery number generator
+* Issue #5: Traits - An image processing app
+** Follow up
+*** Try figuring out a few other image operations and create new handlers.
+*** Look at the `imageproc` crate and see if you can do some advanced operations.
+*** Send a few images in parallel and see what happens.
+*** https://www.youtube.com/watch?v=WgVWxLuPvfQ[Video: A talk about traits]
 
 == Contributing
 
