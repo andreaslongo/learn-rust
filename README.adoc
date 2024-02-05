@@ -20,8 +20,13 @@ Rust tutorials from https://www.shuttle.rs/launchpad.
 *** Implement the "update" and "delete" function yourself!
 * Issue #7: Defining traits - A CRUD API v2
 ** Follow up
+*** Fix bug
 *** Trying to abstract the SQL statement away as well. What if you get an actual article when calling `Article::select(key)`? How would you implement that? What would be a good abstraction?
 *** And if you go that route, what about async methods in Rust? They are not so easily implemented at the time of this writing, but there are some crates that help you with that. Can you find it? How does it work?
+* Issue #8: The Default trait, working with Arc and RwLock, and using serde - A web sockets chat
+** Try figuring out how to wire them up in your Axum applications. A few leads:
+*** Maybe create new named routes and return the content as String.
+*** Try figuring out how to serve static files using tower_http::services::ServeDir and shuttle_static_folder
 
 == Contributing
 
