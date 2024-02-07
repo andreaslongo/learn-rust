@@ -48,6 +48,9 @@ $ cargo add askama --features with-axum
 $ cargo add askama_axum
 ----
 
+* Issue #11: Refactoring - A CRUD KV Store with Image Processing
+
+
 == Contributing
 
 The best way to get started is to build and run a local dev container.
