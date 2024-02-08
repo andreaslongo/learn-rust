@@ -32,3 +32,8 @@ curl \
 curl \
     --request GET \
     --url http://127.0.0.1:3000/kv/unknown-key \
+
+curl \
+    --request GET \
+    --url http://127.0.0.1:3000/kv/image-1/grayscale \
+    > ./test3.png

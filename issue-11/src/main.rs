@@ -22,19 +22,31 @@ pub struct AppState {
 }
 
 #[derive(Debug)]
-pub struct KVError(String);
+pub struct KVError {
+    status_code: StatusCode,
+    msg: String,
+}
+
+impl KVError {
+    fn new(status_code: StatusCode, msg: &str) -> Self {
+        KVError {
+            status_code,
+            msg: msg.to_string(),
+        }
+    }
+}
 
 impl std::error::Error for KVError {}
 
 impl Display for KVError {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "KVError: {}", self.0)
+        write!(f, "KVError: {} {}", self.status_code, self.msg)
     }
 }
 
 impl IntoResponse for KVError {
     fn into_response(self) -> axum::response::Response {
-        (StatusCode::INTERNAL_SERVER_ERROR, self.0).into_response()
+        (self.status_code, self.msg).into_response()
     }
 }
 
@@ -58,14 +70,8 @@ pub async fn get_kv(
 ) -> Result<impl IntoResponse, KVError> {
     match state.read().await.db.get(&key) {
         Some((content_type, data)) => Ok(([("content-type", content_type.clone())], data.clone())),
-        None => Err(KVError("Key not found".to_string())),
+        None => Err(KVError::new(StatusCode::NOT_FOUND, "Key not found")),
     }
-}
-
-pub fn router(state: &SharedState) -> Router {
-    Router::new()
-        .route("/kv/:key", get(get_kv).post(post_kv))
-        .with_state(Arc::clone(state))
 }
 
 #[tokio::main]
@@ -75,4 +81,44 @@ async fn main() {
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
 
     axum::serve(listener, router).await.unwrap();
+}
+
+pub fn router(state: &SharedState) -> Router {
+    Router::new()
+        .route("/kv/:key", get(get_kv).post(post_kv))
+        .route("/kv/:key/grayscale", get(grayscale))
+        .with_state(Arc::clone(state))
+}
+
+use image::ImageOutputFormat;
+use std::io::Cursor;
+
+pub async fn grayscale(
+    Path(key): Path<String>,
+    State(state): State<SharedState>,
+) -> Result<impl IntoResponse, KVError> {
+    let image = match state.read().await.db.get(&key) {
+        Some((content_type, data)) => {
+            if content_type == "image/png" {
+                image::load_from_memory(data).unwrap()
+            } else {
+                return Err(KVError::new(
+                    StatusCode::FORBIDDEN,
+                    "Not possible to grayscale this type of image",
+                ));
+            }
+        }
+        None => return Err(KVError::new(StatusCode::NOT_FOUND, "Key not found")),
+    };
+
+    let mut vec: Vec<u8> = Vec::new();
+
+    let mut cursor = Cursor::new(&mut vec);
+    image
+        .grayscale()
+        .write_to(&mut cursor, ImageOutputFormat::Png)
+        .unwrap();
+    let bytes: Bytes = vec.into();
+
+    Ok(([("content-type", "image/png")], bytes).into_response())
 }
