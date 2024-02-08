@@ -22,17 +22,11 @@ pub struct AppState {
 }
 
 #[derive(Debug)]
-pub struct KVError {
-    status_code: StatusCode,
-    msg: String,
-}
+pub struct KVError(StatusCode, String);
 
 impl KVError {
     fn new(status_code: StatusCode, msg: &str) -> Self {
-        KVError {
-            status_code,
-            msg: msg.to_string(),
-        }
+        Self(status_code, msg.to_string())
     }
 }
 
@@ -40,13 +34,13 @@ impl std::error::Error for KVError {}
 
 impl Display for KVError {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "KVError: {} {}", self.status_code, self.msg)
+        write!(f, "KVError: {} {}", self.0, self.1)
     }
 }
 
 impl IntoResponse for KVError {
     fn into_response(self) -> axum::response::Response {
-        (self.status_code, self.msg).into_response()
+        (self.0, self.1).into_response()
     }
 }
 
@@ -120,5 +114,19 @@ pub async fn grayscale(
         .unwrap();
     let bytes: Bytes = vec.into();
 
-    Ok(([("content-type", "image/png")], bytes).into_response())
+    Ok(ImageResponse::new(bytes))
+}
+
+pub struct ImageResponse(Bytes);
+
+impl ImageResponse {
+    pub fn new(bytes: impl Into<Bytes>) -> Self {
+        Self(bytes.into())
+    }
+}
+
+impl IntoResponse for ImageResponse {
+    fn into_response(self) -> axum::response::Response {
+        ([("content-type", "image/png")], self.0).into_response()
+    }
 }
