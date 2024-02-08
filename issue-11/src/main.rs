@@ -44,6 +44,18 @@ impl IntoResponse for KVError {
     }
 }
 
+use image::ImageError;
+
+impl From<ImageError> for KVError {
+    fn from(value: ImageError) -> Self {
+        match value {
+            ImageError::IoError(err) => Self::new(StatusCode::BAD_REQUEST, &err.to_string()),
+            ImageError::Unsupported(err) => Self::new(StatusCode::BAD_REQUEST, &err.to_string()),
+            _ => Self::new(StatusCode::BAD_REQUEST, ":-("),
+        }
+    }
+}
+
 pub async fn post_kv(
     Path(key): Path<String>,
     TypedHeader(content_type): TypedHeader<ContentType>,
@@ -105,16 +117,7 @@ pub async fn grayscale(
         None => return Err(KVError::new(StatusCode::NOT_FOUND, "Key not found")),
     };
 
-    let mut vec: Vec<u8> = Vec::new();
-
-    let mut cursor = Cursor::new(&mut vec);
-    image
-        .grayscale()
-        .write_to(&mut cursor, ImageOutputFormat::Png)
-        .unwrap();
-    let bytes: Bytes = vec.into();
-
-    Ok(ImageResponse::new(bytes))
+    Ok(ImageResponse::try_from(image.grayscale()))
 }
 
 pub struct ImageResponse(Bytes);
@@ -128,5 +131,26 @@ impl ImageResponse {
 impl IntoResponse for ImageResponse {
     fn into_response(self) -> axum::response::Response {
         ([("content-type", "image/png")], self.0).into_response()
+    }
+}
+
+use image::DynamicImage;
+
+impl TryFrom<DynamicImage> for ImageResponse {
+    type Error = KVError;
+
+    fn try_from(value: DynamicImage) -> Result<Self, Self::Error> {
+        ImageResponse::try_from(&value)
+    }
+}
+
+impl TryFrom<&DynamicImage> for ImageResponse {
+    type Error = KVError;
+
+    fn try_from(value: &DynamicImage) -> Result<Self, Self::Error> {
+        let mut vec: Vec<u8> = Vec::new();
+        let mut cursor = Cursor::new(&mut vec);
+        value.write_to(&mut cursor, ImageOutputFormat::Png)?;
+        Ok(ImageResponse::new(vec))
     }
 }
