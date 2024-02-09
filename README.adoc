@@ -49,6 +49,9 @@ $ cargo add askama_axum
 ----
 
 * Issue #11: Refactoring - A CRUD KV Store with Image Processing
+** Follow up
+*** Analyze your application regarding performance and memory usage. Since we store data differently, what effect does it have on our app? And since we need to create a PNG image everytime we send data, does this have an effect? Is this justified for our app?
+*** We work with a HashMap! What if we want to add a real database, like what we offer at Shuttle? How would we change our code?
 
 
 == Contributing

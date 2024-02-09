@@ -18,7 +18,7 @@ pub type SharedState = Arc<RwLock<AppState>>;
 
 #[derive(Default)]
 pub struct AppState {
-    db: HashMap<String, (String, Bytes)>,
+    db: HashMap<String, StoredType>,
 }
 
 #[derive(Debug)]
@@ -62,20 +62,18 @@ pub async fn post_kv(
     State(state): State<SharedState>,
     data: Bytes,
 ) -> Result<String, KVError> {
-    state
-        .write()
-        .await
-        .db
-        .insert(key, (content_type.to_string(), data));
+    let stored_type = get_stored_type(content_type, data)?;
+    state.write().await.db.insert(key, stored_type);
     Ok("OK".to_string())
 }
 
 pub async fn get_kv(
     Path(key): Path<String>,
     State(state): State<SharedState>,
-) -> Result<impl IntoResponse, KVError> {
+) -> impl IntoResponse {
     match state.read().await.db.get(&key) {
-        Some((content_type, data)) => Ok(([("content-type", content_type.clone())], data.clone())),
+        Some(StoredType::Image(image)) => Ok(ImageResponse::try_from(image)?.into_response()),
+        Some(StoredType::Other(bytes)) => Ok(bytes.clone().into_response()),
         None => Err(KVError::new(StatusCode::NOT_FOUND, "Key not found")),
     }
 }
@@ -102,22 +100,12 @@ use std::io::Cursor;
 pub async fn grayscale(
     Path(key): Path<String>,
     State(state): State<SharedState>,
-) -> Result<impl IntoResponse, KVError> {
-    let image = match state.read().await.db.get(&key) {
-        Some((content_type, data)) => {
-            if content_type == "image/png" {
-                image::load_from_memory(data).unwrap()
-            } else {
-                return Err(KVError::new(
-                    StatusCode::FORBIDDEN,
-                    "Not possible to grayscale this type of image",
-                ));
-            }
-        }
-        None => return Err(KVError::new(StatusCode::NOT_FOUND, "Key not found")),
-    };
+) -> KVResult<impl IntoResponse> {
+    match state.read().await.db.get(&key) {
+        Some(StoredType::Image(image)) => ImageResponse::try_from(image.grayscale()),
 
-    Ok(ImageResponse::try_from(image.grayscale()))
+        _ => Err(KVError::new(StatusCode::NOT_FOUND, "Key not found")),
+    }
 }
 
 pub struct ImageResponse(Bytes);
@@ -154,3 +142,19 @@ impl TryFrom<&DynamicImage> for ImageResponse {
         Ok(ImageResponse::new(vec))
     }
 }
+
+pub enum StoredType {
+    Image(DynamicImage),
+    Other(Bytes),
+}
+
+fn get_stored_type(content_type: impl ToString, data: Bytes) -> KVResult<StoredType> {
+    if content_type.to_string().starts_with("image") {
+        let image = image::load_from_memory(&data)?;
+        Ok(StoredType::Image(image))
+    } else {
+        Ok(StoredType::Other(data))
+    }
+}
+
+type KVResult<T> = Result<T, KVError>;
