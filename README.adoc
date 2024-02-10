@@ -63,6 +63,7 @@ $ cargo add askama_axum
 *** Try to compare strings and not bytes. Which methods do you need to call to make that work?
 *** Create modules for your errors and types.
 *** Create Routers for all your sub-routes that you can nest in the main router.
+*** https://www.shuttle.rs/blog/2023/11/08/testing-in-rust
 
 == Contributing
 
