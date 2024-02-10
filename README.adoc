@@ -1,6 +1,9 @@
 = Rust: Launchpad
 
-Rust tutorials from https://www.shuttle.rs/launchpad.
+Tutorials from https://www.shuttle.rs/launchpad for building web applications with Rust.
+
+NOTE: Tutorials up to issue #13 use Axum v0.6.
+Axum v0.7 introduced https://github.com/tokio-rs/axum/blob/main/axum/CHANGELOG.md#070-27-november-2023[breaking changes] which require adaption.
 
 * Issue #2: Structs and Enums - A podcast app
 * Issue #3: Ownership and Error Handling - A Sudoku solver
@@ -53,6 +56,13 @@ $ cargo add askama_axum
 *** Analyze your application regarding performance and memory usage. Since we store data differently, what effect does it have on our app? And since we need to create a PNG image everytime we send data, does this have an effect? Is this justified for our app?
 *** We work with a HashMap! What if we want to add a real database, like what we offer at Shuttle? How would we change our code?
 
+* Issue #12: Structuring and testing Axum apps
+** Follow up
+*** Create a `SharedState` trait and implement it for `HashMap` and an actual persistence. What do you need to change in your app to make it work? How do you deal with allocations?
+*** Create a `kv_delete` function. How do you deal with errors? What status code do you return? Test accordingly!
+*** Try to compare strings and not bytes. Which methods do you need to call to make that work?
+*** Create modules for your errors and types.
+*** Create Routers for all your sub-routes that you can nest in the main router.
 
 == Contributing
 
