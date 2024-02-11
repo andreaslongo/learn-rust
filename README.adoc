@@ -2,7 +2,7 @@
 
 Tutorials from https://www.shuttle.rs/launchpad for building web applications with Rust.
 
-NOTE: Tutorials up to issue #13 use Axum v0.6.
+NOTE: Tutorials up to issue #12 use Axum v0.6.
 Axum v0.7 introduced https://github.com/tokio-rs/axum/blob/main/axum/CHANGELOG.md#070-27-november-2023[breaking changes] which require adaption.
 
 * Issue #2: Structs and Enums - A podcast app
@@ -64,6 +64,13 @@ $ cargo add askama_axum
 *** Create modules for your errors and types.
 *** Create Routers for all your sub-routes that you can nest in the main router.
 *** https://www.shuttle.rs/blog/2023/11/08/testing-in-rust
+
+* Issue #13: Dependency injection
+** Follow up
+*** Fix: Uuid conversion error after creating an article
+*** Maybe try to write a test where you can retrieve the article you just stored by sending the Uuid back? Or how would you test for a non-existing article?
+*** Check for possible SQL injections
+*** https://github.com/tokio-rs/axum/tree/3b43b257e77296cc2550ca296ebcc448cd41aed5/examples/dependency-injection
 
 == Contributing
 
