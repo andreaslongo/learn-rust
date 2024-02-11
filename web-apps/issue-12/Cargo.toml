@@ -1,0 +1,17 @@
+[package]
+name = "rust-launchpad-issue-12"
+version = "0.1.0"
+edition = "2021"
+authors = ["Andreas Longo <git@andreaslongo.com>"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/andreaslongo/rust-launchpad"
+homepage = "https://github.com/andreaslongo/rust-launchpad"
+description = ""
+
+[dependencies]
+axum = { version = "0.7.4", features = ["tokio"] }
+axum-macros = "0.4.1"
+tokio = { version = "1.36.0", features = ["rt", "rt-multi-thread"] }
+
+[dev-dependencies]
+tower-service = "0.3.2"

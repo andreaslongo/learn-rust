@@ -1,0 +1,101 @@
+= Rust: Launchpad
+
+Tutorials from https://www.shuttle.rs/launchpad for building web applications with Rust.
+
+NOTE: Tutorials up to issue #12 use Axum v0.6.
+Axum v0.7 introduced https://github.com/tokio-rs/axum/blob/main/axum/CHANGELOG.md#070-27-november-2023[breaking changes] which require adaption.
+
+* Issue #2: Structs and Enums - A podcast app
+* Issue #3: Ownership and Error Handling - A Sudoku solver
+* Issue #4: Ownership and Lifetimes - A lottery number generator
+
+* Issue #5: Traits - An image processing app
+** Follow up
+*** Try figuring out a few other image operations and create new handlers.
+*** Look at the `imageproc` crate and see if you can do some advanced operations.
+*** Send a few images in parallel and see what happens.
+*** https://www.youtube.com/watch?v=WgVWxLuPvfQ[Video: A talk about traits]
+
+* Issue #6: Databases - A CRUD API
+** Follow up
+*** Change the type of `published_date` to `chrono::NaiveDate` and see what happens.
+*** Try working with other data types than `Strings`
+*** Can you add the ID to the struct as well? How do you make sure that the user should not send one when you create a new article
+*** Can you limit access to creating articles?
+*** Implement the "update" and "delete" function yourself!
+
+* Issue #7: Defining traits - A CRUD API v2
+** Follow up
+*** Fix bug
+*** Trying to abstract the SQL statement away as well. What if you get an actual article when calling `Article::select(key)`? How would you implement that? What would be a good abstraction?
+*** And if you go that route, what about async methods in Rust? They are not so easily implemented at the time of this writing, but there are some crates that help you with that. Can you find it? How does it work?
+
+* Issue #8: The Default trait, working with Arc and RwLock, and using serde - A web sockets chat
+** Follow up
+*** Try figuring out how to wire them up in your Axum applications. A few leads:
+**** Maybe create new named routes and return the content as String.
+**** Try figuring out how to serve static files using tower_http::services::ServeDir and shuttle_static_folder
+
+* Issue #9: Trait bounds - Server side validation
+** Follow up
+*** TODOs in main.rs
+*** From here on you can do a lot more. Now that you have a validated JSON input, you can use it to create a user in a database, write the activation route, and so many more things.
+*** https://docs.rs/async-trait/latest/async_trait/index.html
+
+* Issue #10: More on traits - Serving HTML
+** Follow up
+*** Use Askama features instead of Newtype pattern
++
+----
+$ cargo add askama --features with-axum
+$ cargo add askama_axum
+----
+
+* Issue #11: Refactoring - A CRUD KV Store with Image Processing
+** Follow up
+*** Analyze your application regarding performance and memory usage. Since we store data differently, what effect does it have on our app? And since we need to create a PNG image everytime we send data, does this have an effect? Is this justified for our app?
+*** We work with a HashMap! What if we want to add a real database, like what we offer at Shuttle? How would we change our code?
+
+* Issue #12: Structuring and testing Axum apps
+** Follow up
+*** Create a `SharedState` trait and implement it for `HashMap` and an actual persistence. What do you need to change in your app to make it work? How do you deal with allocations?
+*** Create a `kv_delete` function. How do you deal with errors? What status code do you return? Test accordingly!
+*** Try to compare strings and not bytes. Which methods do you need to call to make that work?
+*** Create modules for your errors and types.
+*** Create Routers for all your sub-routes that you can nest in the main router.
+*** https://www.shuttle.rs/blog/2023/11/08/testing-in-rust
+
+* Issue #13: Dependency injection
+** Follow up
+*** Fix: Uuid conversion error after creating an article
+*** Maybe try to write a test where you can retrieve the article you just stored by sending the Uuid back? Or how would you test for a non-existing article?
+*** Check for possible SQL injections
+*** https://github.com/tokio-rs/axum/tree/3b43b257e77296cc2550ca296ebcc448cd41aed5/examples/dependency-injection
+
+== Contributing
+
+The best way to get started is to build and run a local dev container.
+
+You can use https://podman.io[Podman] or any other OCI compliant container manager.
+The dev container has all the required dependencies for working with the project.
+
+[source, bash]
+----
+container/build.sh
+container/run.sh
+----
+
+From inside the container, you can then run some workflows.
+
+[source, bash]
+----
+cargo test    # run tests
+cargo clippy  # run linters
+cargo run
+----
+
+== License
+
+Copyright (C) 2023 Andreas Longo
+
+GNU General Public License v3.0 or later
