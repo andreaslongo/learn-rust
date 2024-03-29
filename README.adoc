@@ -8,73 +8,68 @@ Resources for learning the Rust programming language.
 
 == Development workflow
 
-The main tool here is `cargo`.
+The main tool is `cargo`.
 
-Make sure that your project is in a good state before you begin.
+Make sure that your project is in a good state.
 
-[source, bash]
-.These are the first steps:
+[,bash]
 ----
 git status
 cargo check
 cargo test
 ----
 
-Generally you write/change some code and then check if everything works as expected.
-You likely run those commands every few seconds.
+Write some code and then check if everything works as expected.
+Run those commands every few seconds.
 
-[source, bash]
-.This is the code cycle:
+[,bash]
 ----
-cargo check  # Ask the compiler if you introduced any error
-cargo fix    # Fix compile-time issues (automatically if possible)
-cargo test   # Run your tests
+cargo check  # Ask the compiler if you made a mistake
+cargo fix    # Fix issues (automatically if possible)
+cargo test   # Tests your code
 ----
 
-Then you want to make sure that your code meets some quality standards.
-You will iterate those commands every few minutes.
+Make sure that your code meets your quality standards.
+Run those commands every few minutes.
 
-[source, bash]
-.This is the quality cycle:
+[,bash]
 ----
 cargo clippy  # Check for common mistakes and other improvements
 cargo fmt     # Auto-format your code for a consistent style
 ----
 
-Finally, run the tests again and then run your program to do some manual testing.
+Run your tests again and then run your program to do some manual testing.
 
-[source, bash]
-.These are the final steps:
+[,bash]
 ----
 cargo test
 cargo run
-git commit --all
+git commit
 ----
 
-Remove generated artifacts (the `target/` directory) when you are done.
+Optional: Remove build artifacts (the `target/` directory) when you are done.
 
-[source, bash]
-.This is optional:
+[,bash]
 ----
 cargo clean
 ----
 
-////
-[NOTE]
-====
+== Toolchain
+
 Cargo guides you if some tools are missing from your toolchain:
+
 ----
 error: 'rustfmt' is not installed for the toolchain '1.70.0-x86_64-unknown-linux-gnu'
 To install, run `rustup component add rustfmt`
 ----
 
-.Listing existing tools and installing additional tools:
+Listing existing tools and installing additional tools:
+
+[,bash]
 ----
 rustup component list
 rustup component add rustfmt clippy
 ----
-====
-////
 
 == Additional resources
 
@@ -86,12 +81,15 @@ Tutorials
 * Command line applications
 ** https://rust-cli.github.io/book/
 * https://github.com/learning-rust
+* Rust Web Development
+** https://www.shuttle.rs/launchpad
+** https://www.shuttle.rs/blog/2023/10/25/htmx-with-rust
 
 Books
 
-* The Rust Programming Language - Steve Klabnik, Carol Nichols
+* The Rust Programming Language
 ** https://doc.rust-lang.org/book/
-* Rust Web Development - Bastian Gruber
+* Rust Web Development
 ** https://rustwebdevelopment.com
 
 Podcasts
@@ -108,3 +106,9 @@ Online trainings
 
 * https://learn.microsoft.com/en-us/training/paths/rust-first-steps/
 * https://www.programiz.com/rust
+
+Examples
+
+* Rust Web Development
+** https://www.joeymckenzie.tech/blog/templates-with-rust-axum-htmx-askama
+*** https://github.com/JoeyMckenzie/axum-htmx-templates/tree/main
