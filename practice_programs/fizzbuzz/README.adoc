@@ -1,0 +1,22 @@
+= FizzBuzz
+
+Write a function that takes positive integers and outputs their string
+representation.
+
+Your function should comply with the following additional rules:
+
+* If the number is a multiple of three, return the string "Fizz".
+* If the number is a multiple of five, return the string "Buzz".
+* If the number is a multiple of both three and five, return the string
+  "FizzBuzz".
+
+Optional:
+
+Add an extra Fizz or Buzz whenever one of the digits ('3' or '5') appears in
+the number itself. So, '3' would become FizzFizz, '5' would become BuzzBuzz,
+'15' would be FizzBuzzBuzz.
+
+See:
+
+* http://www.dr-mikes-math-games-for-kids.com/fizz-buzz.html
+* https://katalyst.codurance.com/fizzbuzz
