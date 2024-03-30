@@ -112,3 +112,12 @@ Examples
 * Rust Web Development
 ** https://www.joeymckenzie.tech/blog/templates-with-rust-axum-htmx-askama
 *** https://github.com/JoeyMckenzie/axum-htmx-templates/tree/main
+
+code analysis tools list?
+https://analysis-tools.dev/
+
+crates io alternative?
+https://lib.rs/
+
+axum text framework?
+https://docs.rs/axum-test/latest/axum_test/
