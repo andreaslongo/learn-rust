@@ -2,4 +2,4 @@
 **
 
 # Allow the following explicitly
-# !pyproject.toml
+# !rust-toolchain
