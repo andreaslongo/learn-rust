@@ -7,11 +7,13 @@
     rust_2018_idioms
 )]
 
-/// A function to test if a year is a leap year.
+/// Returns `true` if `year` is a leap year.
+///
+/// # Examples
+///
 /// ```
-/// # use leap_year::is_leap_year;
-/// is_leap_year(2000) == true;
-/// is_leap_year(1997) == false;
+/// assert!(leap_year::is_leap_year(2000));
+/// assert!(!leap_year::is_leap_year(1997));
 /// ```
 #[allow(dead_code)]
 #[must_use]
