@@ -6,7 +6,7 @@ Resources for learning the Rust programming language.
 * https://github.com/rust-lang
 * https://en.wikipedia.org/wiki/Rust_(programming_language)
 
-== Useful for reference
+== Quicklinks for reference
 
 * https://doc.rust-lang.org/stable/book/
 * https://doc.rust-lang.org/stable/rust-by-example/
@@ -14,118 +14,32 @@ Resources for learning the Rust programming language.
 * https://rust-lang.github.io/api-guidelines/
 * https://rust-unofficial.github.io/patterns/
 
-== Development workflow
-
-The main tool is `cargo`.
-
-Make sure that your project is in a good state.
-
-[,bash]
-----
-git status
-cargo check
-cargo test
-----
-
-Write some code and then check if everything works as expected.
-Run those commands every few seconds.
-
-[,bash]
-----
-cargo check  # Ask the compiler if you made a mistake
-cargo fix    # Fix issues (automatically if possible)
-cargo test   # Tests your code
-----
-
-Make sure that your code meets your quality standards.
-Run those commands every few minutes.
-
-[,bash]
-----
-cargo clippy  # Check for common mistakes and other improvements
-cargo fmt     # Auto-format your code for a consistent style
-----
-
-Run your tests again and then run your program to do some manual testing.
-
-[,bash]
-----
-cargo test
-cargo run
-git commit
-----
-
-Optional: Remove build artifacts (the `target/` directory) when you are done.
-
-[,bash]
-----
-cargo clean
-----
-
-== Toolchain
-
-Cargo guides you if some tools are missing from your toolchain:
-
-----
-error: 'rustfmt' is not installed for the toolchain '1.70.0-x86_64-unknown-linux-gnu'
-To install, run `rustup component add rustfmt`
-----
-
-Listing existing tools and installing additional tools:
-
-[,bash]
-----
-rustup component list
-rustup component add rustfmt clippy
-----
-
-== Additional resources
+== Learning
 
 * https://www.rust-lang.org/learn
-
-Tutorials
-
-* https://www.freecodecamp.org/news/tag/rust/
-* Command line applications
-** https://rust-cli.github.io/book/
-* https://github.com/learning-rust
-* Rust Web Development
-** https://www.shuttle.rs/launchpad
-** https://www.shuttle.rs/blog/2023/10/25/htmx-with-rust
 
 Books
 
 * The Rust Programming Language
 ** https://doc.rust-lang.org/book/
-* Rust Web Development
-** https://rustwebdevelopment.com
+* Rust for Rustaceans
+** https://rust-for-rustaceans.com/
+* Command Line Applications in Rust
+** https://rust-cli.github.io/book/
 
-Podcasts
+== Exercising
+
+Tutorials and exercises
+
+* Reading and writing Rust code
+** https://github.com/rust-lang/rustlings/
+* Web programming
+** https://www.shuttle.rs/launchpad
+
+== Listening
+
+Podcasts and videos
 
 * SE Radio #279, Rust 2017
 * SE Radio #490, Rust 2021
 * SE Radio #562, Rust Web Development
-
-Resource lists
-
-* https://gist.github.com/rylev/f76b8e9567a722f1b157a69a4f98f1c1
-
-Online trainings
-
-* https://learn.microsoft.com/en-us/training/paths/rust-first-steps/
-* https://www.programiz.com/rust
-
-Examples
-
-* Rust Web Development
-** https://www.joeymckenzie.tech/blog/templates-with-rust-axum-htmx-askama
-*** https://github.com/JoeyMckenzie/axum-htmx-templates/tree/main
-
-code analysis tools list?
-https://analysis-tools.dev/
-
-crates io alternative?
-https://lib.rs/
-
-axum text framework?
-https://docs.rs/axum-test/latest/axum_test/
