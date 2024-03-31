@@ -1,5 +1,21 @@
+//! The leap year coding challenge
+
+#![warn(
+    clippy::pedantic,
+    missing_debug_implementations,
+    missing_docs,
+    rust_2018_idioms
+)]
+
+/// A function to test if a year is a leap year.
+/// ```
+/// # use leap_year::is_leap_year;
+/// is_leap_year(2000) == true;
+/// is_leap_year(1997) == false;
+/// ```
 #[allow(dead_code)]
-fn is_leap_year(year: usize) -> bool {
+#[must_use]
+pub fn is_leap_year(year: usize) -> bool {
     let divisible_by = |divisor| year % divisor == 0;
     divisible_by(400) || !divisible_by(100) && divisible_by(4)
     // Alternative:
