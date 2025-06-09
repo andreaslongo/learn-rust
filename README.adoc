@@ -43,3 +43,5 @@ Podcasts and videos
 * SE Radio #279, Rust 2017
 * SE Radio #490, Rust 2021
 * SE Radio #562, Rust Web Development
+* SE Radio #644, Rust Error Handling
+* SE Radio #670, Rust Prototyping
