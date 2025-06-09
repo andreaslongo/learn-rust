@@ -1,0 +1,48 @@
+= Rust Prototyping
+
+Some quick notes taken from: https://corrode.dev/blog/prototyping
+
+Workflow
+
+. define requirements: draw, think about data flow
+. add types: start with simple types
+. borrow check: discuss your types with the compiler
+. fix clippy lints: set it to the highest level possible
+. go to step 1 (next iteration)
+
+== Tips
+
+* Use simple types: `i32`, `String`, `Vec<T>`, `Box<T>`, `Rc<T>`, `Arc<Mutex<T>>`, ...
+* Make use of type inference: defer the decision about types to later
+* Use the Rust playground
+* Use `unwrap` liberally: `grep` them or use a clippy lint for later cleanup
+* Add `anyhow` to your prototypes: Use `bail!` and `with_context`
+* Use a good IDE: RustRover, VS Code, ...
+* Use `bacon` for quick feedback cycles: `cargo install --locked bacon`, then run `bacon` in project dir
+* `cargo-script` is awesome: Add a shebang `#!/usr/bin/env cargo +nightly -Zscript`, make the file executable and run it
+* Don’t worry about performance: Avoid early optimizations
+* Use `println!` and `dbg!` for debugging
+* Design through types: build up a vocabulary of concepts and own types which describe your system
+* `todo!`: for sketching out the system
+* `unreachable!` for unreachable branches
+* Use `assert!` for invariants: `debug_assert!` for expensive checks which run at test/debug
+* Avoid generics: until a clear pattern emerges
+* Avoid lifetimes: `.clone()` for passing data around and `Arc<Mutex<T>>` for threading
+* Keep a flat hierarchy: `main.rs` with nested `mod` until a good structure emerges
+* Start small: defer perfection, sort out rough edges later. Paint the landscape, add details later.
+
+== Clippy
+
+[,console]
+----
+$ cargo clippy -- -D warnings
+----
+
+.main.rs, lib.rs
+[,rust]
+----
+#![deny(clippy::all)]
+#![warn(clippy::pedantic)]
+// Optionally, if you want pedantic lints to also fail the build:
+// #![deny(clippy::pedantic)]
+----
