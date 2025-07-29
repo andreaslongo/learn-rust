@@ -13,7 +13,7 @@ Workflow
 == Tips
 
 * Use simple types: `i32`, `String`, `Vec<T>`, `Box<T>`, `Rc<T>`, `Arc<Mutex<T>>`, ...
-* Make use of type inference: defer the decision about types to later
+* Make use of type inference: defer the decision about types to later, like `.collect::<Vec<_>>()`
 * Use the Rust playground
 * Use `unwrap` liberally: `grep` them or use a clippy lint for later cleanup
 * Add `anyhow` to your prototypes: Use `bail!` and `with_context`
